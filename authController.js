@@ -36,7 +36,7 @@ class authController {
     try {
       const errors = validationResult(req);
 
-      if (!errors.isEmpty()) return res.json({ message: 'PI DOR' });
+      if (!errors.isEmpty()) return res.json({ message: 'error' });
 
       const { email, password } = req.body;
       const candidate = await User.findOne({ email });
@@ -44,13 +44,13 @@ class authController {
       if (candidate) return res.json({ message: 'user already exists' });
 
       const hashPassword = bcrypt.hashSync(password, 7);
-      const userRole = await Role.findOne({ value: 'USER' }); // ТУТ ПОМЕНЯЬ РЛЬ
+      const userRole = await Role.findOne({ value: 'USER' }); // ТУТ ПОМЕНЯть
 
       const user = new User({ email, password: hashPassword, roles: [userRole.value] });
       await user.save();
       return res.json({ message: 'Success' });
     } catch (e) {
-      res.json({ message: 'DARAS' });
+      res.json({ message: 'net' });
     }
   }
 }
